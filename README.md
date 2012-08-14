@@ -5,13 +5,15 @@ One of the ways that I've used to learn programming languages is to solve a set 
 problems from Project Euler using that language.  I find that even if the language is
 not well suited to PE-style problems, it is a good opportunity to try and think in the
 language.  I don't work my way through the entire set of problems that I've solved so far,
-but enough that I start to get a feel for the language and its idioms. 
+but enough that I start to get a feel for the language and its idioms. Since this is
+largely test code, I'll often play with patterns or ideas that don't necessarily make
+sense just as a way of feeling out different approaches. 
 
 After doing this a few times and just keeping my libraries locally, I decided I'd upload
-them for Scala so that I could use them as an easy reference when asking questions. 
+them for Scala so that I could use them as an easy reference when asking questions.
 
-I am not going to upload the final problem solving solutions, but it should be noted
-that there are still going to be spoilers for how I've solved some of the problems.
+I am not going to upload the final solutions, but it should be noted that there are still
+going to be spoilers for how I've solved some of the problems.
 
 Scala
 -----
