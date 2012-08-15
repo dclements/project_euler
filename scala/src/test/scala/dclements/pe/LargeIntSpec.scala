@@ -10,7 +10,7 @@ class LargeIntSpec extends FunSpec {
     it("should convert into a byteArray") {
       val i: LargeInt = LargeInt(Long.MaxValue) 
       
-      expect(Array[Byte](127, -1, -1, -1, -1, -1, -1, -1, 0).deep) {
+      expect(Array[Byte](127, -1, -1, -1, -1, -1, -1, -1).deep) {
         i.toByteArray.deep
       }
     }

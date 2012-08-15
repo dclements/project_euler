@@ -128,8 +128,8 @@ class LargeInt(val largeInteger: LargeInteger) extends ScalaNumber with ScalaNum
    */
   def toByteArray(): Array[Byte] = {
     
-    val s = math.ceil(this.bitLength / 8.0).toInt
-    val retval = new Array[Byte](s+1)
+    val s = math.floor(this.bitLength / 8.0).toInt + 1
+    val retval = new Array[Byte](s)
     
     this.largeInteger.toByteArray(retval, 0)
     
