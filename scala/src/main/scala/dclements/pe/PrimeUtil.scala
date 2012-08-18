@@ -114,11 +114,12 @@ object PrimeUtil {
         ListMap(retval.toList.sortBy(_._1):_*)
       case _ if isPrime(k) =>
         val factors = countFactors(n, k)
-        primeFactor(factors._1, retval + (k->factors._2))
+        
+        primeFactor(factors._1, addFactors(retval,  Map(k->factors._2)))
       case _ =>
         val factors = countFactors(n, k)
         val primes = primeFactor(k)
-
+        
         primeFactor(
           factors._1,
           addFactors(retval, multiplyFactors(primes, factors._2)))
