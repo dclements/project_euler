@@ -1,7 +1,7 @@
 package dclements.pe;
 
-import collection.immutable.ListMap
 import annotation.tailrec
+import collection.immutable.ListMap
 
 /**
  * Utilities for working with prime numbers. 
@@ -32,15 +32,15 @@ object PrimeUtil {
   def pollardRho(n: LargeInt): LargeInt = {
 
     require(n > 0)
-
+    
     if (n == 1 || isPrime(n)) {
-      n
-    } else {
-      val maxK = if (n > Int.MaxValue) Int.MaxValue else n.toInt
-      val k = LargeInt((random.nextInt(maxK-3)+2))
-
-      pollardRho(n, 2, 2, 1, (x: LargeInt) => x*x + k)
+      return n
     }
+      
+    val maxK = if (n > Int.MaxValue) Int.MaxValue else n.toInt
+    val k = LargeInt((random.nextInt(maxK-3)+2))
+
+    pollardRho(n, 2, 2, 1, (x: LargeInt) => x*x + k)
 
   }
   
@@ -61,11 +61,9 @@ object PrimeUtil {
         val ny = f(f(y) % n) % n
         val nd = (nx - ny).gcd(n)
 
-        val one = LargeInt(1)
-
         nd match {
           case `n` => pollardRho(n)
-          case `one` => pollardRho(n, nx, ny, nd, f)
+          case LargeInt.One => pollardRho(n, nx, ny, nd, f)
           case _ => nd
         }
     } else {
@@ -90,13 +88,11 @@ object PrimeUtil {
     
   }
   
-  private def multiplyFactors(factors: Map[LargeInt, Int], n: Int): Map[LargeInt, Int] = {
+  private def multiplyFactors(factors: Map[LargeInt, Int], n: Int): Map[LargeInt, Int] =
     factors.map {case (k, v) => (k -> (v * n))}
-  }
 
-  private def addFactors(f1: Map[LargeInt, Int], f2: Map[LargeInt, Int]) = {
+  private def addFactors(f1: Map[LargeInt, Int], f2: Map[LargeInt, Int]) =
     f2 ++ f1.map {case (k: LargeInt, v: Int) => (k -> (v + f2.getOrElse(k, 0)))}
-  }
   
   /**
    * Prime factor an integer n.
@@ -110,7 +106,7 @@ object PrimeUtil {
     val k = pollardRho(n)
 
     n match {
-      case _ if n == 1 =>
+      case LargeInt.One =>
         ListMap(retval.toList.sortBy(_._1):_*)
       case _ if isPrime(k) =>
         val factors = countFactors(n, k)
@@ -236,8 +232,9 @@ private object PrimeSieve {
   private def sieve(
       p: LargeInt,
       pQ: collection.mutable.Map[LargeInt, LargeInt]): Stream[LargeInt] = 
-    p #:: sieve(nextPrime(p + 2, pQ), pQ )
+    p #:: sieve(nextPrime(p + 2, pQ), pQ)
   
+  @tailrec
   private def nextComposite(
       x:LargeInt,
       step: LargeInt,
@@ -250,6 +247,7 @@ private object PrimeSieve {
     
   }
   
+  @tailrec
   private def nextPrime(
       candidate: LargeInt,
       pQ: collection.mutable.Map[LargeInt, LargeInt]): LargeInt = {

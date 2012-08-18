@@ -3,7 +3,8 @@ package dclements.pe;
 import annotation.tailrec
 
 object MathUtil {
-  private val fibCache = collection.mutable.Map[LargeInt, LargeInt](
+
+  private lazy val fibCache = collection.mutable.Map[LargeInt, LargeInt](
     (LargeInt(0)->LargeInt(0)),
     (LargeInt(1)->LargeInt(1)),
     (LargeInt(2)->LargeInt(1)),
@@ -23,8 +24,7 @@ object MathUtil {
     (LargeInt(2)->LargeInt(2)),
     (LargeInt(3)->LargeInt(6)),
     (LargeInt(4)->LargeInt(24)),
-    (LargeInt(5)->LargeInt(120))
-  )
+    (LargeInt(5)->LargeInt(120)))
   
   lazy val fibStream = FibStream.fibonacci()
   
@@ -36,15 +36,16 @@ object MathUtil {
   def factorial(n: LargeInt): LargeInt = {
   
     require(n >= 0)
+    
     if (factCache.contains(n)) {
-      factCache(n)
-    } else {
-      val kval = factCache.maxBy {case (k, v) => k * (if (k < n) 1 else 0)}    
-      val retval = kval._2 * partialFact(n, kval._1)
-      
-      factCache += (n->retval)
-      retval
+      return factCache(n)
     }
+    
+    val kval = factCache.maxBy {case (k, v) => k * (if (k < n) 1 else 0)}    
+    val retval = kval._2 * partialFact(n, kval._1)
+    
+    factCache += (n->retval)
+    retval
     
   }
   
@@ -61,9 +62,8 @@ object MathUtil {
   /**
    * Calculates (n k).
    */
-  def nCk(n: LargeInt, k: LargeInt): LargeInt = {
+  def nCk(n: LargeInt, k: LargeInt): LargeInt =
     partialFact(n, k) / factorial(n - k)
-  }
   
   /**
    * Convenience method for base**exponent % mod
@@ -77,12 +77,22 @@ object MathUtil {
   def fib(n: LargeInt): LargeInt = {
   
     if (fibCache.contains(n)) {
-      fibCache(n)
+      return fibCache(n)
     } else if (fibCache.contains(n - 1)) {
-      fibCache(n-1) + fib(n-2)
+      val retval = fibCache(n-1) + fib(n-2)
+      
+      fibCache += (n->retval)
+      
+      return retval
     } else if (fibCache.contains(n - 2)) {
-      fib(n-1) + fibCache(n-2)
-    } else if (n > 100) {
+      val retval = fib(n-1) + fibCache(n-2)
+      
+      fibCache += (n->retval)
+      
+      return retval
+    }
+    
+    if (n > 100) {
       val retval = if (n % 2 == 0) {
         val k = n >> 1
         fib(k) * (2 * fib(k + 1) - fib(k))
@@ -105,9 +115,9 @@ object MathUtil {
    */
   @tailrec
   def fibt(
-    n: LargeInt,
-    pair1: Tuple2[LargeInt, LargeInt]=LargeInt(1)->LargeInt(1),
-    pair2: Tuple2[LargeInt, LargeInt]=LargeInt(0)->LargeInt(1)): LargeInt = {
+      n: LargeInt,
+      pair1: Tuple2[LargeInt, LargeInt]=LargeInt(1)->LargeInt(1),
+      pair2: Tuple2[LargeInt, LargeInt]=LargeInt(0)->LargeInt(1)): LargeInt = {
     
     if (n == 0) {
       pair2._1
@@ -134,11 +144,12 @@ object MathUtil {
    */
   @tailrec
   def reverse(n: LargeInt, b: Int=10, r: LargeInt=0): LargeInt = {
+  
     require(n >= 0)
-    if (n == 0) {
-      r
-    } else {
-      reverse(n / b, b, b * r + n % b)
+    
+    n match {
+      case LargeInt.Zero => r
+      case _ => reverse(n / b, b, b * r + n % b)
     }
     
   }
@@ -151,27 +162,36 @@ object MathUtil {
   /**
    * Sum of the digits of a number (base 10).
    */
+  @tailrec
   def digitSum(n: LargeInt, retval: LargeInt=0): LargeInt = {
-    if (n == 0) {
-      retval
-    } else {
-      digitSum(n / 10, retval + n % 10)
+  
+    n match {
+      case LargeInt.Zero => retval
+      case _ => digitSum(n / 10, retval + n % 10)
     }
+    
   }
 
+  /**
+   * Determines if number + reverse(number) returns a palindrome within
+   * k iterations.
+   */
+  @tailrec
   def lychrel(n: LargeInt, k: Int=50, count: Int=1): Boolean = {
   
     if (count > k) {
-      true
-    } else {
-      val v = n + reverse(n)
-      if (isPalindrome(v)) {
-        false
-      } else {
-        lychrel(v, k, count + 1)
-      }
+      return true
     }
-  } 
+    
+    val v = n + reverse(n)
+    if (isPalindrome(v)) {
+      false
+    } else {
+      lychrel(v, k, count + 1)
+    }
+
+  }
+   
 }
 
 private object FibStream {

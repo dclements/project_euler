@@ -1,8 +1,7 @@
 package dclements.pe;
 
-import org.scalatest.FunSpec
 import collection.immutable.TreeMap
-
+import org.scalatest.FunSpec
 
 class RationalSpec extends FunSpec {
   

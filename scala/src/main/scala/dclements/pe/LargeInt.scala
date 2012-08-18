@@ -1,9 +1,9 @@
 package dclements.pe;
 
-import org.jscience.mathematics.number.LargeInteger
-import java.math.BigInteger
-import scala.math._
 import collection.immutable.NumericRange
+import java.math.BigInteger
+import org.jscience.mathematics.number.LargeInteger
+import scala.math.{ScalaNumber, ScalaNumericConversions}
 
 
 object LargeInt {

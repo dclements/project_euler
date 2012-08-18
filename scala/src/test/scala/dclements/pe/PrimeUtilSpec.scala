@@ -1,7 +1,7 @@
 package dclements.pe;
 
-import org.scalatest.FunSpec
 import collection.immutable.ListMap
+import org.scalatest.FunSpec
 
 class PrimeUtilSpec extends FunSpec {
   describe("A prime test") {

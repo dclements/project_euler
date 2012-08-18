@@ -1,7 +1,7 @@
 package dclements.pe;
 
-import scala.math._
 import org.jscience.mathematics.number.{Rational => JSRational, LargeInteger}
+import scala.math.{ScalaNumber, ScalaNumericConversions}
 
 object Rational {
   def apply(num: LargeInt, den: LargeInt=LargeInt.One) =
