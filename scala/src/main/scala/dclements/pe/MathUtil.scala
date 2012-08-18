@@ -53,7 +53,7 @@ object MathUtil {
    */
   def partialFact(n: LargeInt, k: LargeInt): LargeInt = {
   
-    require(n > k)
+    require(n >= k)
     (k+1 to n).view.par.foldLeft(LargeInt(1))(_ * _)
     
   }
@@ -61,8 +61,9 @@ object MathUtil {
   /**
    * Calculates (n k).
    */
-  def nCk(n: LargeInt, k: LargeInt): LargeInt =
+  def nCk(n: LargeInt, k: LargeInt): LargeInt = {
     partialFact(n, k) / factorial(n - k)
+  }
   
   /**
    * Convenience method for base**exponent % mod
@@ -158,6 +159,19 @@ object MathUtil {
     }
   }
 
+  def lychrel(n: LargeInt, k: Int=50, count: Int=1): Boolean = {
+  
+    if (count > k) {
+      true
+    } else {
+      val v = n + reverse(n)
+      if (isPalindrome(v)) {
+        false
+      } else {
+        lychrel(v, k, count + 1)
+      }
+    }
+  } 
 }
 
 private object FibStream {

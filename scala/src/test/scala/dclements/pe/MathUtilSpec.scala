@@ -142,4 +142,36 @@ class MathUtilSpec extends FunSpec {
       }
     }
   }
+  
+  describe("A Lychrel test") {
+    it("should detect 196 as Lychrel") {
+      expect(true) {
+        MathUtil.lychrel(196)
+      }
+    }
+    
+    it("should detect 4994 as Lychrel") {
+      expect(true) {
+        MathUtil.lychrel(4994)
+      }
+    }
+    
+    it("should detect 10677 as Lychrel within 50 iterations") {
+      expect(true) {
+        MathUtil.lychrel(10677, 50)
+      }
+    }
+    
+    it("should detect 10677 as non-Lychrel within 60 iterations") {
+      expect(false) {
+        MathUtil.lychrel(10677, 60)
+      }
+    }
+    
+    it("should detect 10 as non-Lychrel") {
+      expect(false) {
+        MathUtil.lychrel(10)
+      }
+    }
+  }
 }
