@@ -30,8 +30,8 @@ object LargeInt {
   }
   implicit object LargeInt extends LargeIntOrdering
   
-  lazy val one: LargeInt = apply(1)
-  lazy val zero: LargeInt = apply(0)
+  lazy val One: LargeInt = apply(1)
+  lazy val Zero: LargeInt = apply(0)
 }
 
 /**
