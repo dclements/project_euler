@@ -137,12 +137,9 @@ object PrimeUtil {
   @tailrec
   private def eulerTotient(f: List[Tuple2[LargeInt, Int]], retval: BigDecimal): LargeInt = {
   
-    f.size match {
-      case 0 => retval.toBigInt
-      case _ =>
-        val h = f.head
-        val t = f.tail
-  
+    f match {
+      case Nil => retval.toBigInt
+      case ::(h, t) =>
         eulerTotient(
           t,
           retval * (1.0 - BigDecimal("1.0") / BigDecimal(h._1))
@@ -163,26 +160,23 @@ object PrimeUtil {
       x: Int, r1: LargeInt=1,
       r2: LargeInt=1): LargeInt = {
 
-    if (f.size == 0) {
-      r1 / r2
-    } else {
-      val h = f.head
-      val t = f.tail
-      
-      x match {
-        case 0 => 
-          divisorFunction(
-            t,
-            x,
-            r1 * (h._2 + 1),
-            r2)
-        case _ =>
-          divisorFunction(
-            t,
-            x,
-            r1 * (h._1.pow((h._2 + 1) * x) - 1),
-            r2 * (h._1.pow(x) - 1))
-      }
+    f match {
+      case Nil => r1 / r2
+      case ::(h, t) =>
+        x match {
+          case 0 => 
+            divisorFunction(
+              t,
+              x,
+              r1 * (h._2 + 1),
+              r2)
+          case _ =>
+            divisorFunction(
+              t,
+              x,
+              r1 * (h._1.pow((h._2 + 1) * x) - 1),
+              r2 * (h._1.pow(x) - 1))
+        }
     }
      
   }
@@ -208,12 +202,11 @@ object PrimeUtil {
   @tailrec
   def reconstruct(n: List[Tuple2[LargeInt, Int]], r: LargeInt=LargeInt(1)): LargeInt = {
     
-    n.size match {
-      case 0 => r
-      case _ =>
-        val h = n.head
+    n match {
+      case Nil => r
+      case ::(h, t) =>
         reconstruct(
-          n.tail,
+          t,
           r * h._1.pow(h._2))
     }
     
