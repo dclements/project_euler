@@ -107,23 +107,25 @@ object PrimeUtil {
   def primeFactor(
       n: LargeInt,
       retval: Map[LargeInt, Int]=Map[LargeInt, Int]()): Map[LargeInt, Int] = {
-      
-    val k = pollardRho(n)
 
     n match {
       case LargeInt.One =>
         ListMap(retval.toList.sortBy(_._1):_*)
-      case _ if isPrime(k) =>
-        val factors = countFactors(n, k)
-        
-        primeFactor(factors._1, addFactors(retval,  Map(k->factors._2)))
       case _ =>
-        val factors = countFactors(n, k)
-        val primes = primeFactor(k)
-        
-        primeFactor(
-          factors._1,
-          addFactors(retval, multiplyFactors(primes, factors._2)))
+        val k = pollardRho(n)
+      
+        if (isPrime(k)) {
+          val factors = countFactors(n, k)
+          
+          primeFactor(factors._1, addFactors(retval,  Map(k->factors._2)))
+        } else {
+          val factors = countFactors(n, k)
+          val primes = primeFactor(k)
+          
+          primeFactor(
+            factors._1,
+            addFactors(retval, multiplyFactors(primes, factors._2)))
+        }
     }
     
   }
@@ -133,8 +135,23 @@ object PrimeUtil {
   * 
   * http://en.wikipedia.org/wiki/Euler's_totient_function
   */
-  def eulerTotient(n: LargeInt): LargeInt = eulerTotient(primeFactor(n).toList, BigDecimal(n))
+  def eulerTotient(n: LargeInt, r: LargeInt=1): LargeInt = {
   
+    if (n.isEven) {
+      val m = n >> 1
+      
+      if (m.isEven) {
+        eulerTotient(m, r << 1)
+      } else {
+        eulerTotient(m, r)
+      }
+    } else {
+      r * eulerTotient(primeFactor(n).toList, BigDecimal(n))
+    }
+  
+  }
+  
+
   @tailrec
   private def eulerTotient(f: List[Tuple2[LargeInt, Int]], retval: BigDecimal): LargeInt = {
   

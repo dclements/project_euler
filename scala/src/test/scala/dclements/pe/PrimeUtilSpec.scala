@@ -110,6 +110,12 @@ class PrimeUtilSpec extends FunSpec {
         PrimeUtil.eulerTotient(31)
       }
     }
+    
+    it("should work return 1 for 1") {
+      expect(1) {
+        PrimeUtil.eulerTotient(1)
+      }
+    }
   }
   
   describe("A divisor function") {

@@ -211,6 +211,9 @@ object MathUtil {
           m1)
     }
   }
+  
+  def isPermutation(a: LargeInt, b: LargeInt): Boolean =
+    (a.toString sorted) equals (b.toString sorted)
    
 }
 
