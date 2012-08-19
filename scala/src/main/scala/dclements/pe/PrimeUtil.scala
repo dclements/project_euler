@@ -135,6 +135,7 @@ object PrimeUtil {
   * 
   * http://en.wikipedia.org/wiki/Euler's_totient_function
   */
+  @tailrec
   def eulerTotient(n: LargeInt, r: LargeInt=1): LargeInt = {
   
     if (n.isEven) {
@@ -146,21 +147,20 @@ object PrimeUtil {
         eulerTotient(m, r)
       }
     } else {
-      r * eulerTotient(primeFactor(n).toList, BigDecimal(n))
+      r * eulerTotient(primeFactor(n).toList, Rational(n, 1))
     }
   
   }
   
-
   @tailrec
-  private def eulerTotient(f: List[Tuple2[LargeInt, Int]], retval: BigDecimal): LargeInt = {
+  private def eulerTotient(f: List[Tuple2[LargeInt, Int]], retval: Rational): LargeInt = {
   
     f match {
-      case Nil => retval.toBigInt
+      case Nil => retval.dividend
       case ::(h, t) =>
         eulerTotient(
           t,
-          retval * (1.0 - BigDecimal("1.0") / BigDecimal(h._1))
+          retval * Rational(h._1 - LargeInt.One, h._1)
         )
     }
     
