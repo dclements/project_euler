@@ -191,6 +191,26 @@ object MathUtil {
     }
 
   }
+  
+  /**
+   * Solves a continuous fraction. 
+   */
+  @tailrec
+  def contFrac(
+      an: List[Int],
+      m1: Tuple2[LargeInt, LargeInt] = (LargeInt.One, LargeInt.Zero),
+      m2: Tuple2[LargeInt, LargeInt] = (LargeInt.Zero, LargeInt.One)): Rational = {
+      
+    an match {
+      case Nil =>
+        Rational(m1._1, m1._2)
+      case ::(h, t) =>
+        contFrac(
+          t,
+          (h*m1._1 + m2._1, h*m1._2 + m2._2),
+          m1)
+    }
+  }
    
 }
 

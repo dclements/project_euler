@@ -4,6 +4,8 @@ version := "1.0"
 
 scalaVersion := "2.9.2"
 
+scalacOptions ++= Seq("-optimize") 
+
 resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
 
 resolvers += "oBiBa" at "http://maven.obiba.org/maven2"

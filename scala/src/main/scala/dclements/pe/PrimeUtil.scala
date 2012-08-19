@@ -23,6 +23,11 @@ object PrimeUtil {
   def isPrime(n: BigInt): Boolean = n.isProbablePrime(primeTests)
   
   /**
+   * A method that isn't on Scala's BigInt, but is on BigInteger.
+   */
+  def nextPrime(n: BigInt): BigInt = new BigInt(n.bigInteger.nextProbablePrime())
+  
+  /**
    * Finds a nontrivial factor of a composite number.
    *
    * Implementation of the pollard rho algorithm:

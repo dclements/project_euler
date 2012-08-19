@@ -174,4 +174,18 @@ class MathUtilSpec extends FunSpec {
       }
     }
   }
+  
+  describe("A continuous fraction calculator") {
+    it("should be able to solve for e") {
+      expect(Rational(1457, 536))  {
+        MathUtil.contFrac(List(2, 1, 2, 1, 1, 4, 1, 1, 6, 1))
+      }
+    }
+    
+    it("should be able to solve for √2") {
+      expect(Rational(3363, 2378)) {
+        MathUtil.contFrac(List(1, 2, 2, 2, 2, 2, 2, 2, 2, 2))
+      }
+    }
+  }
 }

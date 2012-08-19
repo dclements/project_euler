@@ -202,4 +202,24 @@ class PrimeUtilSpec extends FunSpec {
       }
     }
   }
+  
+  describe("A nextPrime function") {
+    it("should properly calculate the next prime from an odd number") {
+      expect(7) {
+        PrimeUtil.nextPrime(5)
+      }
+    }
+    
+    it("should properly calculate the next prime from an even number") {
+      expect(11) {
+        PrimeUtil.nextPrime(10)
+      }
+    }
+    
+    it("should skip early Carmichael numbers") {
+      expect(340573) { // Skip 340561
+        PrimeUtil.nextPrime(340559)
+      }
+    }
+  }
 }
