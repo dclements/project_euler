@@ -214,6 +214,25 @@ object MathUtil {
   
   def isPermutation(a: LargeInt, b: LargeInt): Boolean =
     (a.toString sorted) equals (b.toString sorted)
+    
+  def geometricNumbers(s: Int): Stream[LargeInt] = {
+  
+    require(s >= 3 && s <= 8)
+  
+    val f = s match {
+      case 3 => (n: LargeInt) => (n * (n + 1)) >> 1
+      case 4 => (n: LargeInt) => n * n
+      case 5 => (n: LargeInt) => (n * (3 * n - 1)) >> 1
+      case 6 => (n: LargeInt) => (n * (2 * n -1))
+      case 7 => (n: LargeInt) => (n * (5 * n - 3)) >> 1
+      case 8 => (n: LargeInt) => n * (3 * n - 2)
+    }
+    
+    geometricNumbers(f)
+  }
+  
+  private def geometricNumbers(f: Function1[LargeInt, LargeInt], n: LargeInt=1): Stream[LargeInt] =
+    f(n) #:: geometricNumbers(f, n + LargeInt.One)
    
 }
 

@@ -188,4 +188,54 @@ class MathUtilSpec extends FunSpec {
       }
     }
   }
+  
+  describe("A geometric number stream") {
+    it("should generate triangle numbers") {
+      expect(List(1, 3, 6, 10, 15)) {
+        MathUtil.geometricNumbers(3) take 5 toList
+      }
+    }
+    
+    it("should generate square numbers") {
+      expect(List(1, 4, 9, 16, 25)) {
+        MathUtil.geometricNumbers(4) take 5 toList
+      }
+    }
+    
+    it("should generate pentagonal numbers") {
+      expect(List(1, 5, 12, 22, 35)) {
+        MathUtil.geometricNumbers(5) take 5 toList
+      }
+    }
+    
+    it("should generate hexagonal numbers") {
+      expect(List(1, 6, 15, 28, 45)) {
+        MathUtil.geometricNumbers(6) take 5 toList
+      }
+    }
+    
+    it("should generate heptagonal numbers") {
+      expect(List(1, 7, 18, 34, 55)) {
+        MathUtil.geometricNumbers(7) take 5 toList
+      }
+    }
+    
+    it("should generate octagonal numbers") {
+      expect(List(1, 8, 21, 40, 65)) {
+        MathUtil.geometricNumbers(8) take 5 toList
+      }
+    }
+    
+    it("should reject smaller numbers") {
+      intercept[IllegalArgumentException] {
+        MathUtil.geometricNumbers(2)
+      }
+    }
+    
+    it("should reject larger numbers") {
+      intercept[IllegalArgumentException] {
+        MathUtil.geometricNumbers(9)
+      }
+    }
+  }
 }
