@@ -25,6 +25,9 @@ object MathUtil {
     (LargeInt(3)->LargeInt(6)),
     (LargeInt(4)->LargeInt(24)),
     (LargeInt(5)->LargeInt(120)))
+    
+  private lazy val binomCache =
+    collection.mutable.Map[Tuple2[LargeInt, LargeInt], LargeInt]()
   
   lazy val fibStream = FibStream.fibonacci()
   
@@ -62,8 +65,39 @@ object MathUtil {
   /**
    * Calculates (n k).
    */
-  def nCk(n: LargeInt, k: LargeInt): LargeInt =
-    partialFact(n, k) / factorial(n - k)
+  def nCk(n: LargeInt, k: LargeInt): LargeInt = {
+    
+    require(!(n == 0 && k == 0))
+    
+    val key = (n->k)
+    
+    if (binomCache.contains(key)) {
+      return binomCache(key)
+    }
+    
+    val r = if (k > 0 && binomCache.contains((n->(k - 1)))) {
+      val k2 = (n->(k - 1))
+      binomCache(k2) * (n - k + 1) / k
+      
+    } else if (k < n && binomCache.contains(((n - 1)->k))) {
+      val k2 = ((n - 1)->k)
+      binomCache(k2) * n / (n - k)
+      
+    } else if (n > 0 && k > 0 && binomCache.contains(((n - 1)->(k - 1)))) {
+      val k2 = ((n - 1)->(k - 1))
+      binomCache(k2) * n / k
+    } else if (n == 0) {
+      LargeInt.Zero
+    } else if (k == 0) {
+      LargeInt.One
+    } else {
+      partialFact(n, k) / factorial(n - k)
+    }
+    
+    binomCache += (key->r)
+    binomCache += ((n->(n - k))->r)
+    r
+  }
   
   /**
    * Convenience method for base**exponent % mod
