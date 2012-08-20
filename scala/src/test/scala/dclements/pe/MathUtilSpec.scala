@@ -238,4 +238,24 @@ class MathUtilSpec extends FunSpec {
       }
     }
   }
+  
+  describe("A bouncy number function") {
+    it("should detect an increasing number") {
+      expect(1) {
+        MathUtil.identBouncy(122345)
+      }
+    }
+    
+    it("should detect a decreasing number") {
+      expect(-1) {
+        MathUtil.identBouncy(544321)
+      }
+    }
+    
+    it("should detect a bouncy number") {
+      expect(0) {
+        MathUtil.identBouncy(56321)
+      }
+    } 
+  }
 }

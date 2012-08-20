@@ -214,7 +214,10 @@ object MathUtil {
   
   def isPermutation(a: LargeInt, b: LargeInt): Boolean =
     (a.toString sorted) equals (b.toString sorted)
-    
+  
+  /**
+   * Creates a stream of geometric numbers.
+   */
   def geometricNumbers(s: Int): Stream[LargeInt] = {
   
     require(s >= 3 && s <= 8)
@@ -233,6 +236,35 @@ object MathUtil {
   
   private def geometricNumbers(f: Function1[LargeInt, LargeInt], n: LargeInt=1): Stream[LargeInt] =
     f(n) #:: geometricNumbers(f, n + LargeInt.One)
+  
+  /**
+   * Determines whether a number is "bouncy."
+   */
+  def identBouncy(n: LargeInt, last: LargeInt=LargeInt(-1), inc: Boolean=true, dec: Boolean=true): Int = {
+  
+    if (last == -1) {
+      identBouncy(n / 10, n % 10, inc, dec)
+    } else if (!inc && !dec) {
+      0
+    } else if (n == LargeInt.Zero) {
+      if (inc) {
+        1
+      } else {
+        -1
+      }
+    } else {
+      val next = n % 10
+      
+      if (next < last) {
+        identBouncy(n / 10, next, inc, false)
+      } else if (next > last) {
+        identBouncy(n / 10, next, false, dec)
+      } else {
+        identBouncy(n / 10, next, inc, dec)
+      }
+    }
+    
+  }
    
 }
 
