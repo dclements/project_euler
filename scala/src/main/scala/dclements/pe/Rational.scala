@@ -3,13 +3,15 @@ package dclements.pe;
 import org.jscience.mathematics.number.{Rational => JSRational, LargeInteger}
 import scala.math.{ScalaNumber, ScalaNumericConversions}
 
+import scala.language.implicitConversions
+
 object Rational {
   def apply(num: LargeInt, den: LargeInt=LargeInt.One) =
     new Rational(JSRational.valueOf(num.largeInteger, den.largeInteger))
   
   implicit def int2rational(i: Int): Rational = apply(i)
   implicit def long2rational(i: Long): Rational = apply(i)
-  implicit def lageInt2rational(i: LargeInt): Rational =
+  implicit def largeInt2rational(i: LargeInt): Rational =
     apply(i)
   implicit def bigInt2rational(i: BigInt): Rational =
     apply(i)
@@ -32,8 +34,8 @@ object Rational {
 class Rational(val rational: JSRational) extends ScalaNumber with ScalaNumericConversions with Serializable {
   override def hashCode(): Int = rational.##
   
-  protected def isWhole = divisor == 1
-  def underlying = rational
+  override def isWhole = divisor == 1
+  override def underlying = rational
     
   override def equals(that: Any): Boolean = that match {
     case that: Rational => this equals that

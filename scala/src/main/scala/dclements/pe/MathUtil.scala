@@ -2,6 +2,8 @@ package dclements.pe;
 
 import annotation.tailrec
 
+import scala.language.postfixOps
+
 object MathUtil {
 
   private lazy val fibCache = collection.mutable.Map[LargeInt, LargeInt](

@@ -3,6 +3,8 @@ package dclements.pe;
 import annotation.tailrec
 import collection.immutable.ListMap
 
+import scala.language.postfixOps
+
 /**
  * Utilities for working with prime numbers. 
  */

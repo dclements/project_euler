@@ -5,6 +5,8 @@ import java.math.BigInteger
 import org.jscience.mathematics.number.LargeInteger
 import scala.math.{ScalaNumber, ScalaNumericConversions}
 
+import language.implicitConversions
+
 
 object LargeInt {
   def apply(i: Short): LargeInt = new LargeInt(LargeInteger.valueOf(i.toLong))
@@ -41,7 +43,7 @@ class LargeInt(val largeInteger: LargeInteger) extends ScalaNumber with ScalaNum
   override def hashCode(): Int =
     if (isValidLong) unifiedPrimitiveHashcode else largeInteger.##
   
-  protected def isWhole = true
+  def isWhole = true
   def underlying = largeInteger
     
   override def equals(that: Any): Boolean = that match {
