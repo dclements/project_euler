@@ -43,8 +43,8 @@ class LargeInt(val largeInteger: LargeInteger) extends ScalaNumber with ScalaNum
   override def hashCode(): Int =
     if (isValidLong) unifiedPrimitiveHashcode else largeInteger.##
   
-  def isWhole = true
-  def underlying = largeInteger
+  override def isWhole = true
+  override def underlying = largeInteger
     
   override def equals(that: Any): Boolean = that match {
     case that: LargeInt => this equals that
